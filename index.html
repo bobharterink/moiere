@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+<script id="vertexShader" type="x-shader/x-vertex">
+varying vec2 vUv;
+void main() {
+  vUv = uv;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+}
+</script>
+  
+<script id="fragmentShader" type="x-shader/x-fragment">
+uniform vec3 color1;
+uniform float alpha1;
+uniform vec3 color2;
+uniform float alpha2;
+uniform float lines;
+uniform float linewidth;
+varying vec2 vUv;
+void main() {
+  float p = abs(fract(lines*vUv.y)*2.0-1.0);
+  if(p < linewidth / 100.0){
+    gl_FragColor = vec4(color1, alpha1);
+  }else{
+    gl_FragColor = vec4(color2, alpha2);
+  }
+}
+</script>
+    <div id="app"></div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
